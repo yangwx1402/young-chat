@@ -55,16 +55,26 @@ public class ByteBufferExample {
         }
     }
 
+    public byte[] readByteBuffer(ByteBuffer buffer,int start,int length){
+        byte[] temp = new byte[length];
+        buffer.position(start);
+        System.out.println("position="+buffer.position()+",limit="+buffer.limit());
+        buffer.get(temp);
+        return temp;
+    }
+
 public static void main(String[] args){
     ByteBufferExample example = new ByteBufferExample();
     String line = "我们都是小黄豆";
-    CharBuffer buffer = example.writeBuffer(line);
-    buffer.put('哈');
-    buffer.put('哈');
-    example.readBuffer(buffer);
+//    CharBuffer buffer = example.writeBuffer(line);
+//    buffer.put('哈');
+//    buffer.put('哈');
+//    example.readBuffer(buffer);
 
     ByteBuffer byteBuffer = example.writeByteBuffer(line);
-    example.readByteBuffer(byteBuffer,2);
-
+    //example.readByteBuffer(byteBuffer,2);
+    byteBuffer.flip();
+    System.out.println(new String(example.readByteBuffer(byteBuffer,2,10)));
+    System.out.println(new String(example.readByteBuffer(byteBuffer,2,7)));
 }
 }
