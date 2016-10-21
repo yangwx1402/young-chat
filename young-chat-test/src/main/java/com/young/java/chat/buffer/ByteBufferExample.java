@@ -55,10 +55,11 @@ public class ByteBufferExample {
         }
     }
 
-    public byte[] readByteBuffer(ByteBuffer buffer,int start,int length){
+    public byte[] readByteBuffer(ByteBuffer buffer,int position,int length){
         byte[] temp = new byte[length];
-        buffer.position(start);
+        buffer.position(position);
         System.out.println("position="+buffer.position()+",limit="+buffer.limit());
+        //这里就是从position的位置开始读取temp个数据到temp中,读取的字节总数等于length
         buffer.get(temp);
         return temp;
     }
@@ -66,15 +67,15 @@ public class ByteBufferExample {
 public static void main(String[] args){
     ByteBufferExample example = new ByteBufferExample();
     String line = "我们都是小黄豆";
-//    CharBuffer buffer = example.writeBuffer(line);
-//    buffer.put('哈');
-//    buffer.put('哈');
-//    example.readBuffer(buffer);
+    CharBuffer buffer = example.writeBuffer(line);
+    buffer.put('哈');
+    buffer.put('哈');
+    example.readBuffer(buffer);
 
     ByteBuffer byteBuffer = example.writeByteBuffer(line);
     //example.readByteBuffer(byteBuffer,2);
     byteBuffer.flip();
-    System.out.println(new String(example.readByteBuffer(byteBuffer,2,10)));
-    System.out.println(new String(example.readByteBuffer(byteBuffer,2,7)));
+    System.out.println(new String(example.readByteBuffer(byteBuffer, 2, 10)));
+    System.out.println(new String(example.readByteBuffer(byteBuffer, 2, 6)));
 }
 }
