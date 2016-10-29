@@ -21,6 +21,10 @@ public class SocketChannelExample {
         System.out.println(sc == socket.getChannel());
     }
 
+    /**
+     * 阻塞模式，同java.net里的socket
+     * @throws IOException
+     */
     public void blockConnect() throws IOException {
         SocketChannel sc = SocketChannel.open();
         Socket socket = sc.socket();
@@ -28,6 +32,10 @@ public class SocketChannelExample {
         System.out.println(socket.isConnected());
     }
 
+    /**
+     * 非阻塞模式
+     * @throws IOException
+     */
     public void noBlockConnect() throws IOException {
         SocketChannel sc = SocketChannel.open();
         sc.configureBlocking(false);
