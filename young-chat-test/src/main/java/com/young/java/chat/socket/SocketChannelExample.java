@@ -3,7 +3,10 @@ package com.young.java.chat.socket;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dell on 2016/10/26.
@@ -21,40 +24,47 @@ public class SocketChannelExample {
         System.out.println(sc == socket.getChannel());
     }
 
-    /**
-     * 阻塞模式，同java.net里的socket
-     * @throws IOException
-     */
     public void blockConnect() throws IOException {
         SocketChannel sc = SocketChannel.open();
         Socket socket = sc.socket();
-        socket.connect(new InetSocketAddress("localhost",9999));
+        socket.connect(new InetSocketAddress("localhost", 9999));
         System.out.println(socket.isConnected());
     }
 
-    /**
-     * 非阻塞模式
-     * @throws IOException
-     */
-    public void noBlockConnect() throws IOException {
+    public void noBlockConnect(List<String> data) throws IOException, InterruptedException {
         SocketChannel sc = SocketChannel.open();
         sc.configureBlocking(false);
-        boolean bool = sc.connect(new InetSocketAddress("localhost",9999));
+        boolean bool = sc.connect(new InetSocketAddress("localhost", 9999));
         System.out.println(bool);
-        while(true) {
-            if(sc.finishConnect()){
+        while (true) {
+            if (sc.finishConnect()) {
                 System.out.println("socket is connected");
+                sendData(data, sc);
                 break;
-            }else{
+            } else {
                 System.out.println("socket is connecting");
             }
         }
+        Thread.sleep(10000);
     }
 
-    public static void main(String[] args) throws IOException {
+    private void sendData(List<String> data, SocketChannel sc) throws IOException {
+        for (String line : data) {
+            ByteBuffer byteBuffer = ByteBuffer.allocate(line.getBytes().length);
+            byteBuffer.put(line.getBytes());
+            sc.write(byteBuffer);
+            byteBuffer.clear();
+        }
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         SocketChannelExample example = new SocketChannelExample();
         //example.setBlocking(false);
-        example.blockConnect();
-        example.noBlockConnect();
+        //example.blockConnect();
+        List<String> data = new ArrayList<String>(100);
+        for(int i=0;i<100;i++){
+            data.add("data_"+i);
+        }
+        example.noBlockConnect(data);
     }
 }

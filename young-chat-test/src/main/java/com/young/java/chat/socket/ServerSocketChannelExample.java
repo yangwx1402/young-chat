@@ -13,7 +13,6 @@ public class ServerSocketChannelExample {
     public void example() throws IOException, InterruptedException {
         //执行了open方法以后就创建了一个未绑定的java.net.ServerSocket,该对象可以通过SSC的socket方法获取到
         ServerSocketChannel ssc = ServerSocketChannel.open();
-
         System.out.println(ssc.socket());
         //由于ssc并没有bind方法,所以需要改socket进行bind
         ServerSocket ss = ssc.socket();
@@ -24,6 +23,8 @@ public class ServerSocketChannelExample {
         //ss.accept();
         //而如果使用ssc.accept()那么该socket可以工作在非阻塞模式,是阻塞还是非阻塞决定于configBlocking,默认为阻塞
         ssc.configureBlocking(false);
+        //打印Channel支持的操作
+        System.out.println("oper:"+ssc.validOps());
         while (true) {
             SocketChannel channel = ssc.accept();
             if (channel == null) {
