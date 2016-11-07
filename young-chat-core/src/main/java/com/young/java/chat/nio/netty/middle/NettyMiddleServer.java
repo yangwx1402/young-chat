@@ -1,8 +1,8 @@
-package com.young.java.chat.common.netty.middle;
+package com.young.java.chat.nio.netty.middle;
 
-import com.young.java.chat.common.netty.middle.handler.NettyMiddleDecodeHandler;
-import com.young.java.chat.common.netty.middle.handler.NettyMiddleEncodeHandler;
-import com.young.java.chat.common.netty.middle.handler.NettyMiddlePrintHandler;
+import com.young.java.chat.nio.netty.middle.handler.NettyMiddleDecodeHandler;
+import com.young.java.chat.nio.netty.middle.handler.NettyMiddleEncodeHandler;
+import com.young.java.chat.nio.netty.middle.handler.NettyMiddlePrintHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -13,7 +13,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
-import java.nio.channels.ServerSocketChannel;
 
 /**
  * Created by young.yang on 2016/11/3.

@@ -14,6 +14,16 @@ public class ChatMessage {
 
     private TextMessage text;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     private long sendTime;
 
     private List<UserMessage> toUsers = new ArrayList<UserMessage>();

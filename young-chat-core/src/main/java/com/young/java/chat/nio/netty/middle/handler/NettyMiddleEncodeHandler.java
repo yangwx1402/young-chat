@@ -1,4 +1,4 @@
-package com.young.java.chat.common.netty.middle.handler;
+package com.young.java.chat.nio.netty.middle.handler;
 
 import com.young.java.chat.message.ChatMessage;
 import com.young.java.chat.util.JsonUtils;

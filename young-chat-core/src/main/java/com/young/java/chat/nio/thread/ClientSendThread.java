@@ -1,6 +1,6 @@
-package com.young.java.chat.common.thread;
+package com.young.java.chat.nio.thread;
 
-import com.young.java.chat.common.ChatCommon;
+import com.young.java.chat.nio.ChatCommon;
 import com.young.java.chat.message.ChatMessage;
 import com.young.java.chat.message.TextMessage;
 import com.young.java.chat.util.DateUtils;

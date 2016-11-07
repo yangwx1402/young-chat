@@ -1,7 +1,6 @@
-package com.young.java.chat.common;
+package com.young.java.chat.nio;
 
 import com.young.java.chat.message.ChatMessage;
-import com.young.java.chat.message.TextMessage;
 import com.young.java.chat.message.UserMessage;
 import com.young.java.chat.util.DateUtils;
 import com.young.java.chat.util.JsonUtils;

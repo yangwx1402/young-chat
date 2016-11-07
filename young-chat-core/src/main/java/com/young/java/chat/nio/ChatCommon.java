@@ -1,4 +1,4 @@
-package com.young.java.chat.common;
+package com.young.java.chat.nio;
 
 import com.young.java.chat.message.ChatMessage;
 import com.young.java.chat.util.JsonUtils;
