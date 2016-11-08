@@ -8,6 +8,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Created by young.yang on 2016/11/6.
@@ -15,16 +16,27 @@ import java.util.List;
  */
 public class MessageForwardHandler extends SimpleChannelInboundHandler<ChatMessage>{
 
+    private ExecutorService executors;
+
+    public MessageForwardHandler(ExecutorService executors){
+        this.executors = executors;
+    }
+
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ChatMessage msg) throws Exception {
-         String token = msg.getToken();
-        if(token==null){
-            GlobalVars.onlineUers.put(msg.getUser(),ctx);
-            msg.setToken(msg.getUser().getUsername());
-            ctx.writeAndFlush(msg);
-        }else{
-            forward(msg);
-        }
+    protected void channelRead0(final ChannelHandlerContext ctx,final ChatMessage msg) throws Exception {
+        final String token = msg.getToken();
+        //為了提高性能采用多線程進行轉發
+        executors.submit(new Runnable() {
+             public void run() {
+                 if(token==null){
+                     GlobalVars.onlineUers.put(msg.getUser(),ctx);
+                     msg.setToken(msg.getUser().getUsername());
+                     ctx.writeAndFlush(msg);
+                 }else{
+                     forward(msg);
+                 }
+             }
+         });
     }
 
     private void forward(ChatMessage msg) {

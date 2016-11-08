@@ -7,11 +7,22 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by young.yang on 2016/11/6.
  */
 public class ChatNettyServer {
+
+    public void setExecutors(ExecutorService executors) {
+        this.executors = executors;
+    }
+
+    private ExecutorService executors;
+
+
+
     public void start(String ip,int port) throws InterruptedException {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         EventLoopGroup connectionProcessGroup = new NioEventLoopGroup(10);
@@ -35,13 +46,18 @@ public class ChatNettyServer {
             //4.序列化
             ch.pipeline().addLast(new JsonEncoderHandler());
             //3实现转发
-            ch.pipeline().addLast(new MessageForwardHandler());
+            if(executors==null){
+                executors = Executors.newFixedThreadPool(1);
+            }
+            ch.pipeline().addLast(new MessageForwardHandler(executors));
         }
     }
     public static void main(String[] args) throws InterruptedException {
         String ip = "localhost";
         int port = 9999;
+        ExecutorService executors = Executors.newFixedThreadPool(10);
         ChatNettyServer server = new ChatNettyServer();
+        server.setExecutors(executors);
         server.start(ip,port);
     }
 }
